@@ -23,6 +23,9 @@ const char* mqtt_lwt_topic = "automower/lwt";
 #define gpsPort Serial2
 #define GPS_PORT_NAME "Serial2"
 
+// AM Stop button - relay control
+#define stopRelayPin 12 // output to relay for control of physical stop button
+
 // Define the debug serial port
 #define DEBUG_PORT Serial
 
