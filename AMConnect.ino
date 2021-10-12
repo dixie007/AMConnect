@@ -17,6 +17,7 @@
 #include <WiFi.h>
 #include <ESPmDNS.h>
 #include <PubSubClient.h>
+#include <ArduinoJson.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <Preferences.h>
@@ -49,6 +50,10 @@ unsigned int localPollInterval;
 
 uint8_t lastCommand[5] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; 
 
+//Timer for Wifi reconnect
+unsigned long wifiPreviousMillis = 0;
+unsigned long wifiInterval = 30000;
+
 void setup()
 {
   DEBUG_PORT.begin(9600);
@@ -63,15 +68,19 @@ void setup()
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 
+  // Initialize output to relay for control of physical stop button
+  pinMode(stopRelayPin, OUTPUT);
   
   // Start the serialport to AutoMower
   Serial1.begin(9600, SERIAL_8N1, AMSerialRX, AMSerialTX);
+  handle_debug(false, (String)"Started AM serial");
 
   // Send status request to the automower
 
   // Start the GPS port
   gpsPort.begin(9600);
-
+  handle_debug(false, (String)"Started GPS serial");
+  
   // Set gpsMillis
   gpsMillis = millis();
   pollMillis = millis();
@@ -117,6 +126,17 @@ void setup()
 // Main loop
 void loop()
 {
+  unsigned long wifiCurrentMillis = millis();
+
+  // if WiFi is down, try reconnecting every CHECK_WIFI_TIME seconds
+  if ((WiFi.status() != WL_CONNECTED) && (wifiCurrentMillis - wifiPreviousMillis >=wifiInterval)) {
+    handle_debug(false, (String)millis());
+    handle_debug(false, (String)"Reconnecting to WiFi...");
+    WiFi.disconnect();
+    WiFi.reconnect();
+    wifiPreviousMillis = wifiCurrentMillis;
+  }
+  
   // Check if MQTT is connected 
   if (!client.connected()) {
     reconnect();
@@ -135,7 +155,10 @@ void loop()
         // Set gpsMillis to millis(), so we know when gpsInterval has passed
         gpsMillis = millis();
       }
-    }   
+    }
+    else {
+      handle_debug(false, (String)"Cannot get valid GPS position!");   
+    }
   }
 
   // And then the Automower
@@ -255,24 +278,23 @@ void reconnect() {
 }
 
 void handle_gps() {
-  // Send the location to MQTT
+  // Send the location to MQTT  
   char latitudeString[10];
   dtostrf(fix.latitude(), 0, 6, latitudeString);
   char longitudeString[10];
   dtostrf(fix.longitude(), 0, 6, longitudeString);
-        
 
-  const byte latitudeSize =  sizeof latitudeString;
-  const byte longitudeSize =  sizeof longitudeString;
-  const byte positionSize = latitudeSize + longitudeSize + 1;
+  // Format to Json and send on MQTT
+  StaticJsonDocument<256> JSONdoc;
 
-  char locationString[positionSize];
-  strncpy(locationString, latitudeString, positionSize);
-  strncat(locationString, ",", positionSize - strlen(locationString));
-  strncat(locationString, longitudeString, positionSize - strlen(locationString));
-  // locationString = latitudeString + "," + longitudeString;
-  handle_debug(true, (String)"Location: " + (String)locationString);
-  client.publish(mqtt_location_topic, locationString);
+  JSONdoc["longitude"] = longitudeString;
+  JSONdoc["latitude"] = latitudeString;
+ 
+  char JSONout[128];
+  int b =serializeJson(JSONdoc, JSONout);
+  handle_debug(false, "Sending GPS to MQTT..");
+  handle_debug(false, (String)JSONout);
+  client.publish(mqtt_location_topic, JSONout);
 }
 
 void handle_debug(bool sendmqtt, String debugmsg) {
@@ -929,6 +951,8 @@ void handle_command(String command) {
   else if (command == "setTimerActivate") { memcpy(commandAutomower, amcTimerActivate, sizeof(commandAutomower)); }
   else if (command == "setTimerDeactivate") { memcpy(commandAutomower, amcTimerDeactivate, sizeof(commandAutomower)); }
   else if (command == "getUptime") { handle_uptime(); dowrite = false; }
+  else if (command == "mowerStop") { digitalWrite(stopRelayPin, HIGH); dowrite = false; }
+  else if (command == "mowerStart") { digitalWrite(stopRelayPin, LOW); dowrite = false; }
 
   if (dowrite)
   {
