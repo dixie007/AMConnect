@@ -1,9 +1,11 @@
 # AMConnect 
 
 This is a basic Arduino sketch to connect to a Huqsvarna Automower generation 2 robot mower. 
-In it's current state it connects to the Autoower and sends the status, location and debug data to a mqtt server.
+In it's current state it connects to the Autoower and sends the status, location and debug data to a mqtt server, Home Assistant is used to display and control the Auromower.
 
-The code should be seen as a Proof of Concept code and not a real product. 
+Two versions were developed:
+1. With GPS, based on ESP32-WROOM-32 for lolin32
+2. Without GPS, based on WEMOS D1 Mini Pro ESP8266 CP2104
 
 Feel free to modify it as you see fit. 
 
@@ -11,14 +13,21 @@ Feel free to modify it as you see fit.
 ## Hardware
 
 ### Example hardware
-The example hardware used for this project is based around a LOLIN32 developer module and a NEO-8M  GPS.
 
-[LOLIN32 on Amazon](https://www.amazon.com/Development-Bluetooth-Module-Lolin32-Arduino/dp/B07RZ8HHP9)
+GPS Version
 
-[GPS Module on Amazon](https://www.amazon.com/NEO-8M-Module-APM2-56-GYGPSV3-NEOM8N-NEO-M8N-001/dp/B07YY85WJY)
+The example hardware used for the GPS project is based around a LOLIN32 developer module and a NEO-8M  GPS.
+
+[LOLIN32 on AliExpress](https://de.aliexpress.com/item/1005007336391647.html?spm=a2g0o.order_list.order_list_main.76.65f45c5fyYKQqe&gatewayAdapt=glo2deu)
+
+[GPS Module on AliExpress](https://de.aliexpress.com/item/1005006495592091.html?spm=a2g0o.order_list.order_list_main.51.65f45c5fyYKQqe&gatewayAdapt=glo2deu)
 
 As both the ESP32 and the NEO-8M module comes in alot of different forms and shapes, remember to match the settings in the configuration file with your hardware and wiring. 
 
+
+WEMOS D1 Mini Pro (no GPS)
+
+ [WEMOS D1 Mini Pro on AliExpress](https://de.aliexpress.com/item/1005006975974098.html?spm=a2g0o.order_list.order_list_main.66.65f45c5fyYKQqe&gatewayAdapt=glo2deu)
 For my hardware, the wiring is as shown below. (Note: I have the GPS module upside down compared to the sketch, which makes all pins (except GND) line up with the pins on the LOLIN32 board.)
 
 ![Example Hardware](Hardware/amconnect_example_sketch.png)
