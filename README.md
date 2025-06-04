@@ -46,9 +46,12 @@ The internal header to connect the hardware to is the white header, located just
 Pinout for the header
 
 ![Pinout](Hardware/automower_pinout.png)
+![Pinout](Hardware/automower_gps_cable.jpg)
 
 
 ### Connect to Automower
 In this example, the hardware is connected to an Husqvarna Automower 230 ACX
-![Example Hardware](Hardware/amconnect_connected.jpg)
+![Example Hardware](Hardware/automower_gps.jpg)
+![Example Hardware](Hardware/am_no_gps_case.png)
+
 
