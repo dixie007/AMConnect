@@ -24,12 +24,19 @@ The example hardware used for the GPS project is based around a LOLIN32 develope
 
 As both the ESP32 and the NEO-8M module comes in alot of different forms and shapes, remember to match the settings in the configuration file with your hardware and wiring. 
 
+Case for LOLIN32 and GPS Module 
+
+ [WEMOS D1 Mini Pro Case on Reichelt](loin32_case_bottom.stl)
+
+
+
 
 WEMOS D1 Mini Pro (no GPS)
 
  [WEMOS D1 Mini Pro on AliExpress](https://de.aliexpress.com/item/1005006975974098.html?spm=a2g0o.order_list.order_list_main.66.65f45c5fyYKQqe&gatewayAdapt=glo2deu)
 
 Case for WEMOS D1 Mini Pro
+
  [WEMOS D1 Mini Pro Case on Reichelt](https://www.reichelt.com/ch/de/shop/produkt/mini-abs-gehaeuse_50_x_35_x_20_mm_ip_54-121020)
 
 Changed according to the ESP32 Pinout Reference the pins used for RX / TX see also 
