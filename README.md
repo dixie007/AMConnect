@@ -28,9 +28,13 @@ As both the ESP32 and the NEO-8M module comes in alot of different forms and sha
 WEMOS D1 Mini Pro (no GPS)
 
  [WEMOS D1 Mini Pro on AliExpress](https://de.aliexpress.com/item/1005006975974098.html?spm=a2g0o.order_list.order_list_main.66.65f45c5fyYKQqe&gatewayAdapt=glo2deu)
-For my hardware, the wiring is as shown below. (Note: I have the GPS module upside down compared to the sketch, which makes all pins (except GND) line up with the pins on the LOLIN32 board.)
 
-![Example Hardware](Hardware/amconnect_example_sketch.png)
+Changed according to the ESP32 Pinout Reference the pins used for RX / TX see also 
+[ESP32 Pinout Reference: Which GPIO pins should you use?](https://randomnerdtutorials.com/esp32-pinout-reference-gpios/)
+
+![GPS Hardware](Hardware/amconnect_example_sketch.png)
+
+
 
 
 ### Pinout of the Automower header
