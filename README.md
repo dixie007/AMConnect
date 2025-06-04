@@ -75,4 +75,5 @@ AM no GPS Case
 ### Example HA
 
 ![Header](Hardware/am_homeassistant_1.png)
+
 ![Header](Hardware/am_homeassistant_2.png)
