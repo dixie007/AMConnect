@@ -29,6 +29,9 @@ WEMOS D1 Mini Pro (no GPS)
 
  [WEMOS D1 Mini Pro on AliExpress](https://de.aliexpress.com/item/1005006975974098.html?spm=a2g0o.order_list.order_list_main.66.65f45c5fyYKQqe&gatewayAdapt=glo2deu)
 
+Case for WEMOS D1 Mini Pro
+ [WEMOS D1 Mini Pro Case on Reichelt](https://www.reichelt.com/ch/de/shop/produkt/mini-abs-gehaeuse_50_x_35_x_20_mm_ip_54-121020)
+
 Changed according to the ESP32 Pinout Reference the pins used for RX / TX see also 
 [ESP32 Pinout Reference: Which GPIO pins should you use?](https://randomnerdtutorials.com/esp32-pinout-reference-gpios/)
 
@@ -50,8 +53,10 @@ Pinout for the header
 
 
 ### Connect to Automower
-In this example, the hardware is connected to an Husqvarna Automower 230 ACX
+In this example, the AM GPS hardware is connected to an Husqvarna Automower 230 ACX
 ![Example Hardware](Hardware/automower_gps.jpg)
+
+AM no GPS Case
 ![Example Hardware](Hardware/am_no_gps_case.png)
 
 
