@@ -70,3 +70,9 @@ AM no GPS Case
 ![Example Hardware](Hardware/am_no_gps_case.png)
 
 
+## Home Assitant
+
+### Example HA
+
+![Header](Hardware/am_homeassistant_1.png)
+![Header](Hardware/am_homeassistant_2.png)
