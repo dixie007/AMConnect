@@ -32,8 +32,9 @@ WEMOS D1 Mini Pro (no GPS)
 Changed according to the ESP32 Pinout Reference the pins used for RX / TX see also 
 [ESP32 Pinout Reference: Which GPIO pins should you use?](https://randomnerdtutorials.com/esp32-pinout-reference-gpios/)
 
-![GPS Hardware](Hardware/amconnect_example_sketch.png)
+![GPS Hardware](Hardware/am_gps.png)
 
+![Without GPS Hardware](Hardware/am_no_gps.png)
 
 
 
