@@ -26,10 +26,13 @@ As both the ESP32 and the NEO-8M module comes in alot of different forms and sha
 
 Case for LOLIN32 and GPS Module 
 
- [WEMOS D1 Mini Pro Case on Reichelt](loin32_case_bottom.stl)
+ [LOLIN32 Case Bottom](Hardware/loin32_case_bottom.stl)
 
+ [LOLIN32 Case Top](Hardware/loin32_case_top.stl)
 
+ [GPS Case Bottom](Hardware/u-blox_neo_m8n_bottom.stl)
 
+ [GPS Case Top](Hardware/u-blox_neo_m8n_top.stl)
 
 WEMOS D1 Mini Pro (no GPS)
 
