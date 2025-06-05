@@ -13,6 +13,10 @@ Feel free to modify it as you see fit.
 ## Hardware
 
 ### Example hardware
+Cable
+
+[Dupont Line 10/15/20CM 30CM 40Pin Male to Male + Male to Female Female to Female Jumper Wire Dupont Cable](https://www.aliexpress.com/item/1005005364298980.html?spm=a2g0o.detail.pcDetailTopMoreOtherSeller.2.2cddcz8Pcz8PlK&gps-id=pcDetailTopMoreOtherSeller&scm=1007.40050.354490.0&scm_id=1007.40050.354490.0&scm-url=1007.40050.354490.0&pvid=cd0cf94c-196a-4e9f-b0e4-1dfec2911464&_t=gps-id:pcDetailTopMoreOtherSeller,scm-url:1007.40050.354490.0,pvid:cd0cf94c-196a-4e9f-b0e4-1dfec2911464,tpp_buckets:668%232846%238112%231997&pdp_ext_f=%7B%22order%22%3A%221622%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2230050%22%7D&pdp_npi=4%40dis%21CHF%211.74%211.74%21%21%2114.94%2114.94%21%40210385db17491299829837959e0857%2112000032750153124%21rec%21CH%213995943804%21XZ&utparam-url=scene%3ApcDetailTopMoreOtherSeller%7Cquery_from%3A)
+
 
 GPS Version
 
