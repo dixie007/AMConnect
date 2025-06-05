@@ -4,8 +4,8 @@ This is a basic Arduino sketch to connect to a Huqsvarna Automower generation 2 
 In it's current state it connects to the Autoower and sends the status, location and debug data to a mqtt server, Home Assistant is used to display and control the Auromower.
 
 Two versions were developed:
-1. With GPS, based on ESP32-WROOM-32 for lolin32
-2. Without GPS, based on WEMOS D1 Mini Pro ESP8266 CP2104
+1. With GPS, based on ESP32-WROOM-32 for lolin32 - AM_GPS_Connect.ino
+2. Without GPS, based on WEMOS D1 Mini Pro ESP8266 CP2104 - AMLightConnect.ino
 
 Feel free to modify it as you see fit. 
 
