@@ -14,10 +14,28 @@ uint8_t amcKeyProgB[5]                          = { 0x0F, 0x80, 0x5F, 0x00, 0x0B
 uint8_t amcKeyProgC[5]                          = { 0x0F, 0x80, 0x5F, 0x00, 0x0C }; // Key Program C on Automower
 uint8_t amcKeyHome[5]                           = { 0x0F, 0x80, 0x5F, 0x00, 0x0D }; // Key Home on Automower
 uint8_t amcKeyManAuto[5]                        = { 0x0F, 0x80, 0x5F, 0x00, 0x0E }; // Key Man/Auto on Automower
-uint8_t amcKeyC[5]                              = { 0x0F, 0x80, 0x5F, 0x00, 0x0F }; // Key C on Automower
+uint8_t amcKeyC[5]                              = { 0x0F, 0x80, 0x5F, 0x00, 0x0F }; // Key C / back on Automower 
 uint8_t amcKeyUp[5]                             = { 0x0F, 0x80, 0x5F, 0x00, 0x10 }; // Key Up on Automower
 uint8_t amcKeyDown[5]                           = { 0x0F, 0x80, 0x5F, 0x00, 0x11 }; // Key Down on Automower
 uint8_t amcKeyYes[5]                            = { 0x0F, 0x80, 0x5F, 0x00, 0x12 }; // Key YES on Automower
+
+// New Modes
+uint8_t amcMenuAdvanced[5]                      = { 0x0F, 0xCA, 0x54, 0x00, 0x03 }; // Advanced Menu
+uint8_t amcMenuNormal[5]                        = { 0x0F, 0xCA, 0x54, 0x00, 0x01 }; // Normal Menu
+uint8_t amcGetModusAutomower[5]                 = { 0x0F, 0x01, 0x2C, 0x00, 0x00 }; // Request Automower Modus
+
+// Advanced 
+uint8_t statusLeerAutomower[5]                  = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; // Resultat leer initialisieren
+uint8_t moveSetRightWheel0[5]                   = { 0x0F, 0x92, 0x03, 0x00, 0x00 };
+uint8_t moveSetLeftWheel0[5]                    = { 0x0F, 0x92, 0x23, 0x00, 0x00 };
+uint8_t moveSetRightWheel8000[5]                = { 0x0F, 0x92, 0x03, 0x80, 0x00 };
+uint8_t moveSetLeftWheel8000[5]                 = { 0x0F, 0x92, 0x23, 0x80, 0x00 };
+uint8_t moveSetMode0D[5]                        = { 0x0F, 0x81, 0x0D, 0x3A, 0x9D };
+uint8_t moveSetMode9A[5]                        = { 0x0F, 0x81, 0x9A, 0x00, 0x90 };
+uint8_t moveSetMode99[5]                        = { 0x0F, 0x81, 0x99, 0x00, 0x90 };
+uint8_t STOP_ON_DATA[5]                         = { 0x0F, 0x81, 0x2F, 0x00, 0x02 };
+uint8_t STOP_OFF_DATA[5]                        = { 0x0F, 0x81, 0x2F, 0x00, 0x00 };
+uint8_t amcReadStopCMD[5]                       = { 0x0F, 0x01, 0x2F, 0x00, 0x00 };
 
 // Set Modes
 uint8_t amcModeManual[5]                        = { 0x0F, 0x81, 0x2C, 0x00, 0x00 }; // Activate Manual Mode
