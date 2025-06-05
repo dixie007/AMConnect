@@ -1,0 +1,37 @@
+type: map
+entities:
+  - entity: sensor.AMConnect_GPS_gps
+default_zoom: 200
+aspect_ratio: "1"
+hours_to_show: 0
+theme_mode: auto
+card_mod:
+  type: picture-entity
+  style:
+    ha-map:
+      $:
+        .leaflet-marker-icon:
+          ha-entity-marker $: |
+            .marker {
+              background-image: {% if ((states('sensor.AMConnect_GPS_status') == 'Wartet in Ladestation') or ((states('sensor.AMConnect_GPS_status') == 'Laden') or (states('sensor.AMConnect_GPS_status') == 'Wartet auf Einsatz'))) %} url('/local/Automower/Automower230_charging.png')
+              {% else %} url('/local/Automower/Automower230.png')
+              {% endif %} !important;
+              background-size: cover !important;
+              border-radius: 50% !important;
+              box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5) !important;
+              position: relative !important;
+              top: 60% !important;
+              left: 0% !important;
+              width: 30px !important;
+              height: 35px !important;
+              border: none !important;
+              background-color: none !important;
+            }
+        .leaflet-polyline:
+          $: |
+            path {
+              stroke-width: 1px !important;
+              opacity: 0.7 !important;
+              stroke: #ff6600 !important;
+            }
+    .leaflet-marker-icon: null

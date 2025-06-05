@@ -1,0 +1,248 @@
+type: entities
+title: Automower
+show_header_toggle: false
+entities:
+  - type: custom:multiple-entity-row
+    entity: sensor.AMConnect_GPS_mode
+    name: Mode
+    show_state: false
+    secondary_info:
+      entity: sensor.AMConnect_GPS_mode
+      name: false
+    icon: mdi:robot-mower
+  - type: custom:multiple-entity-row
+    entity: sensor.AMConnect_GPS_status
+    name: Status
+    show_state: false
+    secondary_info:
+      entity: sensor.AMConnect_GPS_status
+      name: false
+    entities:
+      - entity: sensor.AMConnect_GPS_current_activity
+        name: Aktuelle Tätigkeit
+  - type: custom:button-card
+    entity: sensor.AMConnect_GPS_battery_in
+    name: " "
+    icon: mdi:battery
+    show_state: true
+    styles:
+      card:
+        - padding: 1px
+        - height: 40px
+        - margin: 0px
+      name:
+        - margin: 0px
+      state:
+        - margin: 0px
+        - justify-self: start
+        - margin-left: 15px
+      grid:
+        - grid-template-columns: 0.1fr 1fr
+        - grid-template-areas: "\"i s\""
+        - justify-items: start
+      icon:
+        - color: |
+            [[[ return states['sensor.AMConnect_GPS_battery_farbe'].state ]]]
+        - width: 100%
+        - height: 100%
+        - margin-left: 0px
+  - type: custom:fold-entity-row
+    head:
+      type: section
+      label: Control
+    entities:
+      - type: buttons
+        entities:
+          - entity: script.AMConnect_GPS_start
+            name: Start
+            icon: mdi:play
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.AMConnect_GPS_start
+          - entity: script.AMConnect_GPS_pause
+            name: Pause
+            icon: mdi:pause
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.AMConnect_GPS_pause
+          - entity: script.AMConnect_GPS_go_home
+            name: Home
+            icon: mdi:home
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.AMConnect_GPS_home
+  - type: custom:fold-entity-row
+    clickable: true
+    head:
+      type: button
+      name: Diagnosis
+      icon: mdi:chart-line
+      action_name: Details
+      tap_action:
+        action: fire-dom-event
+        fold_row: true
+    entities:
+      - entity: sensor.AMConnect_GPS_mowing_rpm
+        name: Mowing motor
+        icon: mdi:current-ac
+      - entity: sensor.AMConnect_GPS_mahzeit_in_prozent
+        name: Mowing time in percent
+        icon: mdi:percent
+      - entity: sensor.AMConnect_GPS_battery_temperature
+        name: Battery temperature
+        icon: mdi:thermometer
+      - entity: sensor.AMConnect_GPS_battery_capacity_used_mah
+        name: Battery available (mAh)
+        icon: mdi:battery-charging
+  - type: custom:fold-entity-row
+    clickable: true
+    head:
+      type: button
+      name: Settings
+      icon: mdi:cog
+      action_name: Open
+      tap_action:
+        action: fire-dom-event
+        fold_row: true
+    entities:
+      - entity: weather.uetikon_am_see
+        name: Weather Zurich
+        icon: mdi:weather-partly-cloudy
+      - entity: sensor.uetikon_am_see_precipitation_last_6_hours
+        name: Rain last 6h in Zurich
+        icon: mdi:weather-hail
+      - entity: sensor.schneehohe_uetikon
+        name: Snow depth inZurich
+        icon: mdi:snowflake-check
+      - entity: sensor.AMConnect_GPS_wetter_mahen_erlaubt
+        name: Weather mowing allowed
+      - entity: input_boolean.AMConnect_GPS_holiday
+        name: Stops on holidays
+      - entity: input_boolean.AMConnect_GPS_rain
+        name: Stops when it rains
+        icon: mdi:weather-hail
+      - entity: input_boolean.AMConnect_GPS_frost
+        name: Stops in frost
+        icon: mdi:snowflake-thermometer
+      - entity: input_boolean.AMConnect_GPS_snow
+        name: Stops in snow
+        icon: mdi:snowflake-alert
+  - type: custom:fold-entity-row
+    clickable: true
+    head:
+      type: button
+      name: Statistics
+      icon: mdi:chart-box
+      action_name: Open
+      tap_action:
+        action: fire-dom-event
+        fold_row: true
+    entities:
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.AMConnect_GPS_rssi
+            name: RSSI
+        hours_to_show: 24
+        points_per_hour: 2
+        line_width: 2
+        show:
+          labels: true
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.AMConnect_GPS_mowing_rpm
+            name: Mowing motor
+        hours_to_show: 24
+        points_per_hour: 2
+        line_width: 2
+        show:
+          labels: true
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.mowing_time_daily_AMConnect_GPS
+            name: Daily mowing time
+        hours_to_show: 168
+        points_per_hour: 0.25
+        aggregate_func: max
+        group_by: date
+        show:
+          labels: true
+          name: true
+  - type: custom:fold-entity-row
+    clickable: true
+    head:
+      type: button
+      name: Service
+      icon: mdi:tools
+      action_name: Open
+      tap_action:
+        action: fire-dom-event
+        fold_row: true
+    entities:
+      - entity: sensor.AMConnect_GPS_knife_replaced_date
+        name: Last knife change
+        icon: mdi:calendar-check
+      - entity: sensor.AMConnect_GPS_zeit_seit_letzten_messerwechsel
+        name: Mowing time since last blade change
+        icon: mdi:saw-blade
+      - type: divider
+      - type: buttons
+        entities:
+          - entity: script.knife_date_reset_AMConnect_GPS
+            name: Reset knife timer
+            icon: mdi:calendar-blank
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.knife_date_reset_AMConnect_GPS
+  - type: custom:fold-entity-row
+    clickable: true
+    head:
+      type: button
+      name: Mowing times
+      icon: mdi:calendar
+      action_name: Anzeigen
+      tap_action:
+        action: fire-dom-event
+        fold_row: true
+    entities:
+      - entity: input_boolean.AMConnect_GPS_montag
+        name: Monday
+        icon: none
+      - entity: input_boolean.AMConnect_GPS_dienstag
+        name: Tuesday
+        icon: none
+      - entity: input_boolean.AMConnect_GPS_mittwoch
+        name: Wednesday
+        icon: none
+      - entity: input_boolean.AMConnect_GPS_donnerstag
+        name: Thursday
+        icon: none
+      - entity: input_boolean.AMConnect_GPS_freitag
+        name: Friday
+        icon: none
+      - entity: input_boolean.AMConnect_GPS_samstag
+        name: Saturday
+        icon: none
+      - entity: input_boolean.AMConnect_GPS_sonntag
+        name: Sunday
+        icon: none
+      - type: divider
+      - entity: input_datetime.AMConnect_GPS_mahzeit_start_1
+        name: Mowing timer Start 1
+        icon: none
+      - entity: input_datetime.AMConnect_GPS_mahzeit_stop_1
+        name: Mowing timer Stop 1
+        icon: none
+      - entity: input_datetime.AMConnect_GPS_mahzeit_start_2
+        name: Mowing timer Start 2
+        icon: none
+      - entity: input_datetime.AMConnect_GPS_mahzeit_stop_2
+        name: Mowing timer Stop 2
+        icon: none
