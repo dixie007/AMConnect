@@ -1,0 +1,266 @@
+# Automower AMConnect_GPS
+# xxxxxxxxxxxxxx replace with MQTT topic
+  - name: "AMConnect GPS Status"
+    state_topic: "xxxxxxxxxxxxxx/status"
+    value_template: >
+      {{value | string}}
+  - state_topic: "xxxxxxxxxxxxxx/gps_lon"  
+    name: "AMConnect GPS Letzte Bekannte Longitude"
+    unique_id: "AMConnect_GPS_longitude"
+    icon: "mdi:longitude"
+    unit_of_measurement: "°"
+    value_template: >
+      {{value|round(6)}}
+  - state_topic: "xxxxxxxxxxxxxx/gps_lat"  
+    name: "AMConnect GPS Letzte Bekannte Latitude"
+    unique_id: "AMConnect_GPS_latitude"
+    icon: "mdi:latitude"
+    unit_of_measurement: "°"
+    value_template: >
+      {{value|round(6)}}      
+  - name: "AMConnect GPS LWT"
+    state_topic: xxxxxxxxxxxxxx/lwt
+    value_template: >
+      {% if 'Online' in value %}
+        {{ 1 }}
+      {% else %}
+        {{ 0 }}
+      {% endif %}    
+  - name: "AMConnect GPS GPS Coordinates"
+    state_topic: xxxxxxxxxxxxxx/location
+    value_template: >
+      {{value | string}}
+  - name: "AMConnect GPS Latitude"
+    state_topic: xxxxxxxxxxxxxx/location
+    value_template: >
+      {{ value.split(',')[0] }}
+  - name: "AMConnect GPS Longitude"
+    state_topic: xxxxxxxxxxxxxx/location
+    value_template: >
+      {{ value.split(',')[1] }}
+  - name: "AMConnect GPS RSSI"
+    state_topic: xxxxxxxxxxxxxx/rssi
+    value_template: >
+      {{value | string}}
+  - name: "AMConnect GPS Stop Status"
+    state_topic: xxxxxxxxxxxxxx/debug
+    value_template: >
+      {% if ('Stop' in value) and not('Timer' in value) %}
+        {{value | string}}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_stop_status') }}
+      {% endif %}
+  - name: "AMConnect GPS Voice version"
+    state_topic: xxxxxxxxxxxxxx/debug
+    value_template: >
+      {% if ('Voice version: ' in value) and (value != "Unknown") %}
+        {{ value.split('Mode: ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_voice_version') }}
+      {% endif %}
+  - name: "AMConnect GPS IP"
+    state_topic: xxxxxxxxxxxxxx/ip
+    value_template: >
+      {{value | string}}      
+  - name: "AMConnect GPS Mode"
+    state_topic: xxxxxxxxxxxxxx/debug
+    value_template: >
+      {% if ((('Mode' in value) and not('Square' in value)) and (not('Stop' in value) and (value != "Unknown"))) %}    
+        {{value | string}}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_mode') }}
+      {% endif %}        
+  - name: "AMConnect GPS Battery capacity mAh"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "mAh"
+    value_template: >
+      {% if ('Battery capacity mAh: ' in value) and (value != "Unknown") %}
+        {{ value.split('Battery capacity mAh: ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_battery_capacity_mah') }}
+      {% endif %}
+  - name: "AMConnect GPS Battery Capacity (mA)"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "mA"
+    value_template: >
+      {% if ('Battery capacity (mA): ' in value) and (value != "Unknown") %}
+        {{ value.split('Battery capacity (mA): ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_battery_capacity_ma') }}
+      {% endif %}
+  - name: "AMConnect GPS Battery Capacity Used (mAh)"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "mAh"
+    value_template: >
+      {% if ('Battery Capacity Used (mAh): ' in value) and (value != "Unknown") %}
+        {{ value.split('Battery Capacity Used (mAh): ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_battery_used_capacity_mah') }}
+      {% endif %}
+  - name: "AMConnect GPS Up Days"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "D"
+    value_template: >
+      {% if 'Up:' in value %}
+        {{ value.split('Up:')[1].split('days')[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_up_days') }}
+      {% endif %}
+  - name: "AMConnect GPS Up Hours"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "h"
+    value_template: >
+      {% if 'Up:' in value %}
+        {{ value.split('days,')[1].split('hours')[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_up_hours') }}
+      {% endif %}    
+  - name: "AMConnect GPS Up minutes"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "min"
+    value_template: >
+      {% if 'Up:' in value %}
+        {{ value.split('hours,')[1].split('minutes')[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_up_minutes') }}
+      {% endif %}
+  - name: "AMConnect GPS Up seconds"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "sec"
+    value_template: >
+      {% if 'Up:' in value %}
+        {{ value.split('minutes,')[1].split('seconds')[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_up_seconds') }}
+      {% endif %}      
+  - name: "AMConnect GPS Timer Status"
+    state_topic: xxxxxxxxxxxxxx/debug
+    value_template: >
+      {% if 'Timer Status:' in value %}
+        {{ value.split('Timer Status:')[1].split()[0] }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_timer_status') }}
+      {% endif %}
+  - name: "AMConnect GPS Mowing RPM"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "rpm"
+    value_template: >
+      {% if 'Mowing rpm: ' in value %}
+        {{ value.split('Mowing rpm: ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_mowing_rpm') }}
+      {% endif %}
+  - name: "AMConnect GPS Speed Knife"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "rpm"
+    value_template: >
+      {% if 'Speed of Knife engine: ' in value %}
+        {{ value.split('Speed of Knife engine: ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_speed_knife') }}
+      {% endif %}
+  - name: "AMConnect GPS Battery Voltage"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "V"
+    value_template: >
+      {% if 'Battery Voltage: ' in value %}
+        {{ (value.split('Battery Voltage: ')[1].split()[0]) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_battery_voltage') }}
+      {% endif %}
+  - name: "AMConnect GPS Square mode procent"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "%"
+    value_template: >
+      {% if 'Square mode procent:' in value %}
+        {{ value.split('Square mode procent:')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_square_mode_procent') }}
+      {% endif %}
+  - name: "AMConnect GPS Square mode reference"
+    state_topic: xxxxxxxxxxxxxx/debug
+    value_template: >
+      {% if 'Square mode reference:' in value %}
+        {{ value.split('Square mode reference:')[1].split()[0] }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_square_mode_reference') }}
+      {% endif %}
+  - name: "AMConnect GPS Last charging time"
+    state_topic: xxxxxxxxxxxxxx/debug
+    value_template: >
+      {% if ('Last charging time: ' in value) and (value != "Unknown") %}
+        {{ value.split('Last charging time: ')[1].split()[0] }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_last_charging_time') }}
+      {% endif %}
+  - name: "AMConnect GPS Battery charging temperature"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "°C"
+    value_template: >
+      {% if ('Battery charging temperature: ' in value) and (value != "Unknown") %}
+        {{ value.split('Battery charging temperature: ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_battery_charging_temperature') }}
+      {% endif %}
+  - name: "AMConnect GPS Right wheel speed"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "cm/s"
+    value_template: >
+      {% if ('Right wheel speed: ' in value) and (value != "Unknown") %}
+        {{ value.split('Right wheel speed: ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_right_wheel_speed') }}
+      {% endif %}
+  - name: "AMConnect GPS Left wheel speed"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "cm/s"
+    value_template: >
+      {% if ('Left wheel speed: ' in value) and (value != "Unknown") %}
+        {{ value.split('Left wheel speed: ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_left_wheel_speed') }}
+      {% endif %}
+  - name: "AMConnect GPS Battery seek start capacity"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "mAH"
+    value_template: >
+      {% if ('Battery seek start capacity: ' in value) and (value != "Unknown") %}
+        {{ value.split('Battery seek start capacity: ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_battery_seek_start_capacity') }}
+      {% endif %}
+  - name: "AMConnect GPS Battery temperature"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "°C"
+    value_template: >
+      {% if ('Battery temperature: ' in value) and (value != "Unknown") %}
+        {{ value.split('Battery temperature: ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_battery_temperature') }}
+      {% endif %}
+  - name: "AMConnect GPS 2nd Battery temperature"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "°C"
+    value_template: >
+      {% if ('Battery next temperature reading: ' in value) and (value != "Unknown") %}
+        {{ value.split('Battery next temperature reading: ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_2nd_battery_temperature') }}
+      {% endif %}
+  - name: "AMConnect GPS Mowing Time"
+    state_topic: xxxxxxxxxxxxxx/debug
+    unit_of_measurement: "min"
+    value_template: >
+      {% if ('Mowing time: ' in value) and (value != "Unknown") %}
+        {{ value.split('Mowing time: ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_mowing_time') }}
+      {% endif %}
+  - name: "AMConnect GPS Firmware Version"
+    state_topic: xxxxxxxxxxxxxx/debug
+    value_template: >
+      {% if ('Firmware version: ' in value) and (value != "Unknown") %}
+        {{ value.split('Firmware version: ')[1].split()[0] | round(0) }}
+      {% else %}
+        {{ states('sensor.AMConnect_GPS_firmware_version') }}
+      {% endif %}

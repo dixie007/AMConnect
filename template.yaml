@@ -1,0 +1,83 @@
+# Automower AMConnect GPS
+  - name: "AMConnect GPS Zeit seit letzten Messerwechsel"
+    unique_id: sensor.AMConnect_GPS_zeit_seit_letzten_messerwechsel
+    icon: mdi:clock-outline
+    state: >
+      {% set minuten = states('sensor.AMConnect_GPS_zeit_seit_letzten_messerwechsel_minuten')|int(0) %}
+      {% set stunden = (minuten / 60)|int %}
+      {% set rest_minuten = (minuten % 60)|int %}
+      {{ stunden }} h {{ rest_minuten }} min
+  - name: "AMConnect GPS GPS"
+    unique_id: 'AMConnect_GPS_gps'
+    state: Wuschl
+    attributes:
+      latitude: >-
+        {{ states('sensor.AMConnect_GPS_letzte_bekannte_latitude')|float }}
+      longitude: >-
+        {{ states('sensor.AMConnect_GPS_letzte_bekannte_longitude')|float }}
+  - name: "AMConnect GPS Battery in %"
+    unit_of_measurement: "%"
+    state: > 
+      {{ (states('sensor.AMConnect_GPS_battery_capacity_used_mah')|float / 44.0) | round (0) }}
+  - name: "AMConnect GPS Battery Farbe"
+    state: > 
+            {% set battery_level = states('sensor.AMConnect_GPS_battery_in') | int %} 
+            {% if battery_level > 75 %}
+              green
+            {% elif battery_level > 50 %}
+              yellow
+            {% elif battery_level > 25 %}
+              orange
+            {% else %}
+              red
+            {% endif %}  
+  - name: "AMConnect GPS Weather Status Stop"
+    state: >
+      {% if ((states('sensor.zurich_temperature') | float < 3) and states('input_boolean.AMConnect_GPS_frost') == 'on') 
+         or ((states('sensor.zurich_precipitation_last_6_hours') | float > 5) and states('input_boolean.AMConnect_GPS_rain') == 'on')
+         or ((states('sensor.schneehohe_zurich') | float > 0) and states('input_boolean.AMConnect_GPS_snow') == 'on') %}
+        true
+      {% else %}
+        false
+      {% endif %}
+  - name: "AMConnect GPS Modus"
+    state: "{{ states('input_select.amgps_modus')|string }}"
+  - name: "AMConnect GPS Knife replaced date"
+    state: >
+      {{ as_timestamp(states('input_datetime.AMConnect_GPS_mahmesser_ersetzt')) | timestamp_custom('%d.%m.%Y') }}
+  - name: "AMConnect GPS Mähzeit in Minuten"
+    unit_of_measurement: "min"
+    state: "{{ states('counter.AMConnect_GPS_zahler_mahen')|float }}"
+    icon: mdi:clock-outline
+  - name: "AMConnect GPS Ladezeit in Minuten"
+    unit_of_measurement: "min"
+    state: "{{ states('counter.AMConnect_GPS_zahler_laden')|float }}"
+    icon: mdi:clock-outline
+  - name: "AMConnect GPS Suchzeit in Minuten"
+    unit_of_measurement: "min"
+    state: "{{ states('counter.AMConnect_GPS_zahler_suchen')|float }}"
+    icon: mdi:clock-outline
+  - name: "AMConnect GPS Mähzeit Gestern"
+    unit_of_measurement: "min"
+    state: >
+      {% set yesterday = now().replace(hour=0, minute=0, second=0) - timedelta(days=1) %}
+      {% set yesterday_str = yesterday.strftime('%Y-%m-%d') %}
+    
+      {% if states('sensor.mowing_time_daily_AMConnect_GPS') != 'unknown' and states('sensor.mowing_time_daily_AMConnect_GPS') != 'unavailable' %}
+        {% set history = states('sensor.mowing_time_daily_AMConnect_GPS') | float %}
+        {{ history | round }}
+      {% else %}
+        0
+      {% endif %}
+  - name: "AMConnect GPS Mähzeit in Prozent"
+    unit_of_measurement: "%"
+    state: "{{ (100 * states('sensor.AMConnect_GPS_mahzeit_in_minuten')|float / (states('sensor.AMConnect_GPS_suchzeit_in_minuten')|float + states('sensor.AMConnect_GPS_mahzeit_in_minuten')|float) ) | round(1) }}"
+    icon: mdi:percent
+
+  - name: "AMConnect GPS Wetter Mähen erlaubt"
+    state: >-
+      {% if states('sensor.AMConnect_GPS_weather_status_stop') == 'false' %}
+        🟢
+      {% else %}
+        ❌
+      {% endif %}
